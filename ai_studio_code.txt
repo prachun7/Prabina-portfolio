@@ -1,0 +1,1855 @@
+import React, { useState, useEffect, useRef } from "react";
+import {
+  GraduationCap,
+  BookOpen,
+  Award,
+  Briefcase,
+  Users,
+  Calendar,
+  Mail,
+  Phone,
+  MapPin,
+  FileText,
+  ChevronRight,
+  ExternalLink,
+  Download,
+  Printer,
+  Copy,
+  Check,
+  Menu,
+  X,
+  Search,
+  Filter,
+  Camera,
+  ArrowUp,
+  Building,
+  Sparkles,
+  ShieldCheck,
+  Send,
+} from "lucide-react";
+
+// --- AUTHORITATIVE DATA FROM BIODATA ---
+const PERSONAL_INFO = {
+  name: "Prabina Shrestha",
+  title: "Lecturer | Academic Leader | Researcher",
+  institution: "Balkumari Campus, Narayangarh, Chitwan, Nepal",
+  role: "Vice Principal & Faculty of Management",
+  summary:
+    "An experienced academic professional with extensive experience in management education, institutional leadership, research, academic administration, and community engagement spanning nearly three decades.",
+  dobBS: "2031/06/28",
+  nationality: "Nepali",
+  permanentAddress: "Narayangarh, Chitwan, Nepal",
+  currentCampus: "Balkumari Campus, Narayangarh",
+  emails: ["prabinashrestha031@gmail.com"],
+  phones: ["9845050478", "9855093125"],
+};
+
+const EDUCATION_DATA = [
+  {
+    degree: "Master of Philosophy (M.Phil.) in Management",
+    institution: "Tribhuvan University, Kirtipur, Nepal",
+    duration: "2024 – 2026",
+    score: "CGPA: 3.89",
+    highlight: true,
+    focus: "Advanced Research & Strategic Organizational Management",
+    description:
+      "Graduated with distinguished academic standing, focusing on organizational culture, capital structure, and modern pedagogical methodologies.",
+  },
+  {
+    degree: "Master's Degree in Business Administration (MBA)",
+    institution: "Tribhuvan University, Kirtipur, Nepal",
+    duration: "1998 – 1999",
+    score: "59.68%",
+    highlight: false,
+    focus: "General Management & Business Administration",
+    description:
+      "Comprehensive postgraduate study in corporate finance, strategic human resource management, and organizational behavior.",
+  },
+  {
+    degree: "Bachelor's Degree in Business Administration (BBA)",
+    institution: "Tribhuvan University, Kirtipur, Nepal",
+    duration: "1995 – 1997",
+    score: "46.50%",
+    highlight: false,
+    focus: "Foundational Business & Commerce Administration",
+    description:
+      "Foundational grounding in managerial economics, accountancy, quantitative methods, and enterprise management.",
+  },
+  {
+    degree: "Proficiency Certificate Level (PCL) in Pharmacy",
+    institution:
+      "Institute of Medicine (IOM), Maharajgunj, Tribhuvan University",
+    duration: "1993 – 1994",
+    score: "71.60% (First Division)",
+    highlight: false,
+    focus: "Pharmaceutical Sciences & Health Logistics",
+    description:
+      "Specialized healthcare qualification in pharmacology, clinical dispensing, anatomy, and community health dynamics.",
+  },
+  {
+    degree: "School Leaving Certificate (SLC)",
+    institution: "Balkumari Secondary School, Narayangarh",
+    duration: "1990",
+    score: "74.14% (Distinction/First Division)",
+    highlight: false,
+    focus: "General Secondary Curriculum",
+    description:
+      "Solid secondary education with distinction marks, setting the foundation for academic and scientific pursuits.",
+  },
+];
+
+const EXPERIENCE_DATA = [
+  {
+    period: "2024 – Present",
+    role: "Vice Principal",
+    institution: "Balkumari College, Narayangarh, Chitwan",
+    category: "Leadership",
+    details: [
+      "Providing institutional leadership, policy execution, and overall administrative oversight.",
+      "Steering academic quality assurance, faculty mentorship, and accreditation initiatives.",
+      "Liaising with university bodies, UGC Nepal, and institutional stakeholders to uphold educational excellence.",
+    ],
+  },
+  {
+    period: "2023 – Present",
+    role: "Teaching Management Subjects",
+    institution: "Balkumari Campus",
+    category: "Teaching",
+    details: [
+      "Delivering undergraduate and graduate level courses in organizational management, business strategy, and research practices.",
+      "Supervising student theses, field research reports, and seminar paper presentations.",
+    ],
+  },
+  {
+    period: "2000 – 2024",
+    role: "Assistant Lecturer / Lecturer / Program Coordinator",
+    institution: "Balkumari College",
+    category: "Academic & Coordination",
+    details: [
+      "Assistant Lecturer in Management (Part-Time).",
+      "Lecturer in Management (Permanent position earned through institutional merit).",
+      "Program Coordinator (Management, Day Shift) managing faculty timetables, student academic welfare, and semester examinations.",
+      "Over 24 years of continuous service fostering high student pass rates and institutional loyalty.",
+    ],
+  },
+  {
+    period: "1996 – 1999",
+    role: "Instructor",
+    institution: "Balkumari Nursing College",
+    category: "Healthcare Teaching",
+    details: [
+      "Lectured in Pharmacy and Human Anatomy modules.",
+      "Guided and evaluated student Community Survey Project Work across rural and peri-urban Chitwan.",
+      "Supervised Community Survey Presentations and clinical field assessments.",
+    ],
+  },
+  {
+    period: "1995 – 1996",
+    role: "Pharmacy Assistant",
+    institution: "Simca Laboratories Pvt. Ltd.",
+    category: "Industry Practice",
+    details: [
+      "Assisted in pharmaceutical quality review, inventory management, and good laboratory practices.",
+      "Gained valuable commercial and industrial operations insights that enriched subsequent management pedagogy.",
+    ],
+  },
+];
+
+const PUBLICATIONS_DATA = [
+  {
+    id: 1,
+    title:
+      "Corporate Culture and Organisational Performance: A Review of Literature",
+    journal: "Nepalese Journal of Management Research (Peer Reviewed Journal)",
+    publisher: "Nepal Journals Online (NepJOL)",
+    volume: "Vol. 4",
+    year: "January 2024",
+    category: "Peer-Reviewed Research Article",
+    type: "Journal Article",
+    featured: true,
+  },
+  {
+    id: 2,
+    title:
+      "Public Participation in Infrastructure Development of Community Colleges in Nepal with Special Reference to Infrastructure Development of Balkumari College",
+    journal:
+      "Nepal International Infrastructure Finance Conference (NIIFC) Proceedings",
+    publisher: "NIIFC",
+    volume: "Proceedings",
+    year: "2010",
+    category: "Conference Research Publication",
+    type: "Research Paper",
+    featured: true,
+  },
+  {
+    id: 3,
+    title: "Research: What and How?",
+    journal: "Journal of Balkumari College",
+    publisher: "Balkumari College Research Committee",
+    volume: "Vol. 1",
+    year: "2066 B.S.",
+    category: "Methodological Paper",
+    type: "Journal Article",
+    featured: false,
+  },
+  {
+    id: 4,
+    title:
+      "Balkumari College: Advancing Toward Excellence in Quality Education",
+    journal: "Balkumari Souvenir",
+    publisher: "Balkumari College Publication Wing",
+    volume: "Special Edition",
+    year: "2082 B.S.",
+    category: "Institutional Leadership & Quality",
+    type: "Institutional Souvenir",
+    featured: false,
+  },
+  {
+    id: 5,
+    title:
+      "Rotarian as a Social Entrepreneur: Transforming Communities Through Service and Innovation",
+    journal: "Pinnacle Rotary Souvenir",
+    publisher: "Rotary International Community",
+    volume: "Annual Issue",
+    year: "2026/27",
+    category: "Social Entrepreneurship & Community",
+    type: "Souvenir Contribution",
+    featured: true,
+  },
+  {
+    id: 6,
+    title: "Aligning Corporate Values with Rotary Club Performance",
+    journal: "Pinnacle Rotary Souvenir",
+    publisher: "Rotary International",
+    volume: "Annual Issue",
+    year: "2025/26",
+    category: "Organizational Values & NGO Governance",
+    type: "Souvenir Contribution",
+    featured: false,
+  },
+];
+
+const PRESENTATIONS_DATA = [
+  {
+    title:
+      "Impact of Micro-Economic Variable on Corporate Capital Structure in Listed Manufacturing Companies in Nepal",
+    conference:
+      "National Conference on Reforming Higher Education in Time of Crisis: Strategies for Retention, Quality and Societal Impact",
+    organizer: "Madhyabindu Multiple Campus",
+    year: "2025",
+    scope: "National Conference",
+  },
+  {
+    title:
+      "Socio-Cultural Influence on Women's Entrepreneurship in Chitwan District, Nepal",
+    conference:
+      "International Conference 2024 on Inclusive and Sustainable Development through Transformation, Innovation and Digitalization",
+    organizer: "International Academic Consortium",
+    year: "2024",
+    scope: "International Conference",
+  },
+  {
+    title:
+      "Public Participation in Infrastructure Development of Community Colleges in Nepal with Special Reference to Infrastructure Development of Balkumari College",
+    conference:
+      "Nepal International Infrastructure Finance Conference (NIIFC)",
+    organizer: "NIIFC Nepal",
+    year: "2010",
+    scope: "International Conference",
+  },
+];
+
+const WORKSHOPS_DATA = [
+  {
+    title: "Training on Good Governance for Community Campuses",
+    organizer: "University Grants Commission (UGC) Nepal",
+    year: "22–24 May 2026",
+    type: "Governance & Leadership",
+  },
+  {
+    title: "Three-Day Workshop on Article Writing",
+    organizer: "Research Management Cell (RMC), Balkumari College (Supported by UGC Nepal)",
+    year: "15–17 Jestha 2083",
+    type: "Research Methodology",
+  },
+  {
+    title: "Teachers' Professional Development Training Program (TPDTP), 2nd Cohort",
+    organizer: "University Grants Commission (UGC) Nepal",
+    year: "14–20 Chaitra 2082",
+    type: "Faculty Development",
+  },
+  {
+    title: "Digital Pedagogy Training",
+    organizer: "Balkumari College (Supported by UGC Nepal)",
+    year: "2082 B.S.",
+    type: "Faculty Development",
+  },
+  {
+    title: "Five-Day Workshop on Data Analysis Using MS-Excel",
+    organizer: "RMC, Balkumari College (Supported by UGC Nepal)",
+    year: "10–15 May 2025",
+    type: "Data Analysis & Tools",
+  },
+  {
+    title: "National Conference on Nepalese Higher Education: Education and Learning Through Social Innovation",
+    organizer: "Higher Education Forum Nepal",
+    year: "2023",
+    type: "Higher Education",
+  },
+  {
+    title: "Two-Day Workshop on Designing Seminar Paper, Article Writing, Publication and Pedagogical Approaches",
+    organizer: "Faculty Development Council",
+    year: "2023",
+    type: "Research Methodology",
+  },
+  {
+    title: "Three-Day Faculty Development Program",
+    organizer: "Purbanchal University",
+    year: "2023",
+    type: "Faculty Development",
+  },
+  {
+    title: "Workshop on Developing Research Career and Publication",
+    organizer: "Academic Research Center",
+    year: "2023",
+    type: "Research Methodology",
+  },
+  {
+    title: "Workshop on Application of Excel in Analyzing and Visualizing Data (AEAVD-2018)",
+    organizer: "Data Analytics Cell",
+    year: "2018",
+    type: "Data Analysis & Tools",
+  },
+  {
+    title: "Workshop on Research Methodology and Thesis/Report Writing",
+    organizer: "Tribhuvan University Affiliated Faculty Wing",
+    year: "2073 B.S.",
+    type: "Research Methodology",
+  },
+  {
+    title: "Seven-Day Teacher Training/Orientation Program",
+    organizer: "Curriculum and Training Division, Higher Secondary Education Board (HSEB)",
+    year: "2068 B.S.",
+    type: "Faculty Development",
+  },
+  {
+    title: "Nepal International Infrastructure Finance Conference (NIIFC)",
+    organizer: "NIIFC Committee",
+    year: "2010",
+    type: "Higher Education",
+  },
+  {
+    title: "Training and Workshop in Research Methodology",
+    organizer: "Research Committee",
+    year: "2009",
+    type: "Research Methodology",
+  },
+  {
+    title: "Reducing HIV Stigma in Health Care Settings",
+    organizer: "Nepal Medical Association (NMA)",
+    year: "2063 B.S.",
+    type: "Health & Community",
+  },
+  {
+    title: "Training Preparation on Health Logistics",
+    organizer: "Nepal Family Health Program & CTEVT",
+    year: "2005",
+    type: "Health & Community",
+  },
+];
+
+const SOCIAL_INVOLVEMENT_DATA = [
+  {
+    role: "Executive Member",
+    organization: "Narayani Kala Mandir",
+    location: "Chitwan, Nepal",
+    description: "Actively contributing to arts, music preservation, and cultural heritage promotion in the Chitwan valley.",
+    badge: "Arts & Culture",
+  },
+  {
+    role: "Past President",
+    organization: "Lions Club of Balkumari College",
+    location: "Chitwan, Nepal",
+    description: "Served as chapter head directing humanitarian campaigns, student youth mentorship, and community blood donation drives.",
+    badge: "Service Leadership",
+  },
+  {
+    role: "Executive Member",
+    organization: "Spouse Club of Rotary Club of Narayangarh",
+    location: "Narayangarh, Chitwan",
+    description: "Championing educational scholarships, maternal health, and sustainable community empowerment programs.",
+    badge: "Community Welfare",
+  },
+  {
+    role: "Member",
+    organization: "Chitwan Chamber of Commerce and Industry (CCCI)",
+    location: "Chitwan, Nepal",
+    description: "Engaging in regional economic dialogues, entrepreneurship development, and female enterprise networks.",
+    badge: "Industry Linkage",
+  },
+  {
+    role: "Secretary",
+    organization: "Narayangarh Newa Puch",
+    location: "Narayangarh, Chitwan",
+    description: "Leading executive administration and social initiatives for indigenous Newar cultural safeguarding and community festivals.",
+    badge: "Cultural Heritage",
+  },
+  {
+    role: "Secretary",
+    organization: "Abhiyan Cooperative Society",
+    location: "Narayangarh, Chitwan",
+    description: "Directing secretarial governance, micro-credit access, and community-driven economic cooperative initiatives.",
+    badge: "Cooperative Governance",
+  },
+];
+
+export default function App() {
+  const [activeSection, setActiveSection] = useState("hero");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [cvModalOpen, setCvModalOpen] = useState(false);
+  const [customPhoto, setCustomPhoto] = useState<string | null>(null);
+  const [selectedWorkshopCategory, setSelectedWorkshopCategory] = useState("All");
+  const [searchWorkshopQuery, setSearchWorkshopQuery] = useState("");
+  const [contactStatus, setContactStatus] = useState<"idle" | "submitting" | "success">("idle");
+  const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Restore custom portrait if uploaded previously
+  useEffect(() => {
+    const savedPhoto = localStorage.getItem("prabina_shrestha_custom_photo");
+    if (savedPhoto) {
+      setCustomPhoto(savedPhoto);
+    }
+  }, []);
+
+  // Track active section for navbar highlight
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = [
+        "hero",
+        "about",
+        "experience",
+        "education",
+        "publications",
+        "presentations",
+        "workshops",
+        "involvement",
+        "contact",
+      ];
+      const scrollPosition = window.scrollY + 200;
+
+      for (const sectionId of sections) {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          const top = element.offsetTop;
+          const height = element.offsetHeight;
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            setActiveSection(sectionId);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleCopyEmail = (email: string) => {
+    navigator.clipboard.writeText(email);
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2500);
+  };
+
+  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        setCustomPhoto(base64String);
+        try {
+          localStorage.setItem("prabina_shrestha_custom_photo", base64String);
+        } catch {
+          // In case of quota exceeds in localStorage
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const scrollTo = (id: string) => {
+    setMobileMenuOpen(false);
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const handleContactSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.name || !formData.email || !formData.message) return;
+    setContactStatus("submitting");
+    setTimeout(() => {
+      setContactStatus("success");
+      setFormData({ name: "", email: "", subject: "", message: "" });
+      setTimeout(() => setContactStatus("idle"), 5000);
+    }, 900);
+  };
+
+  const workshopCategories = [
+    "All",
+    "Research Methodology",
+    "Faculty Development",
+    "Data Analysis & Tools",
+    "Governance & Leadership",
+    "Health & Community",
+  ];
+
+  const filteredWorkshops = WORKSHOPS_DATA.filter((item) => {
+    const matchesCategory =
+      selectedWorkshopCategory === "All" || item.type === selectedWorkshopCategory;
+    const matchesSearch =
+      item.title.toLowerCase().includes(searchWorkshopQuery.toLowerCase()) ||
+      item.organizer.toLowerCase().includes(searchWorkshopQuery.toLowerCase()) ||
+      item.year.toLowerCase().includes(searchWorkshopQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
+
+  return (
+    <div className="min-h-screen bg-[#FAFAF8] text-slate-800 font-sans selection:bg-[#C5A059]/30 selection:text-slate-900 antialiased">
+      {/* HIDDEN FILE INPUT FOR PHOTO CUSTOMIZATION */}
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handlePhotoUpload}
+        accept="image/*"
+        className="hidden"
+      />
+
+      {/* TOP INSTITUTIONAL BAR */}
+      <aside aria-label="Institutional Information" className="bg-[#0B1528] text-slate-300 text-xs py-2 px-4 border-b border-white/10 hidden md:block">
+        <div className="max-w-7xl mx-auto flex justify-between items-center tracking-wide">
+          <div className="flex items-center gap-6">
+            <span className="flex items-center gap-2">
+              <Building className="w-3.5 h-3.5 text-[#D4AF37]" />
+              Balkumari Campus, Narayangarh, Chitwan, Nepal
+            </span>
+            <span className="text-slate-500">•</span>
+            <span className="text-slate-300">
+              Department of Management Studies
+            </span>
+          </div>
+          <div className="flex items-center gap-5">
+            <a
+              href="mailto:prabinashrestha031@gmail.com"
+              className="hover:text-[#D4AF37] transition-colors"
+            >
+              prabinashrestha031@gmail.com
+            </a>
+            <span className="text-slate-500">•</span>
+            <span>Tel: +977-9845050478</span>
+          </div>
+        </div>
+      </aside>
+
+      {/* STICKY NAVIGATION */}
+      <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+          {/* Logo / Brand */}
+          <button
+            onClick={() => scrollTo("hero")}
+            className="text-left group focus:outline-none"
+          >
+            <span className="font-serif text-2xl font-bold tracking-tight text-[#0B1528] block group-hover:text-[#8C6D23] transition-colors">
+              Prabina Shrestha
+            </span>
+            <span className="text-[11px] uppercase tracking-widest text-[#8C6D23] font-semibold block">
+              Vice Principal & Lecturer
+            </span>
+          </button>
+
+          {/* Desktop Nav Links */}
+          <nav className="hidden lg:flex items-center space-x-1">
+            {[
+              { id: "hero", label: "Home" },
+              { id: "about", label: "About" },
+              { id: "experience", label: "Experience" },
+              { id: "education", label: "Education" },
+              { id: "publications", label: "Publications" },
+              { id: "presentations", label: "Presentations" },
+              { id: "workshops", label: "Workshops" },
+              { id: "involvement", label: "Involvement" },
+              { id: "contact", label: "Contact" },
+            ].map((link) => {
+              const isActive = activeSection === link.id;
+              return (
+                <button
+                  key={link.id}
+                  onClick={() => scrollTo(link.id)}
+                  className={`px-3 py-2 text-sm font-medium transition-all rounded-md relative ${
+                    isActive
+                      ? "text-[#0B1528] font-semibold"
+                      : "text-slate-600 hover:text-[#0B1528] hover:bg-slate-100/60"
+                  }`}
+                >
+                  {link.label}
+                  {isActive && (
+                    <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-[#C5A059] rounded-full" />
+                  )}
+                </button>
+              );
+            })}
+          </nav>
+
+          {/* Action Button & Mobile Toggle */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setCvModalOpen(true)}
+              className="hidden sm:inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#0B1528] bg-[#C5A059]/15 hover:bg-[#C5A059]/25 border border-[#C5A059]/40 rounded transition-all shadow-xs"
+            >
+              <FileText className="w-3.5 h-3.5 text-[#8C6D23]" />
+              Academic CV
+            </button>
+
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="lg:hidden p-2 text-slate-700 hover:text-slate-900 rounded-lg hover:bg-slate-100"
+              aria-label="Toggle Navigation Menu"
+            >
+              {mobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Dropdown Menu */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden border-b border-slate-200 bg-white px-4 pt-3 pb-6 shadow-xl space-y-1">
+            {[
+              { id: "hero", label: "Home" },
+              { id: "about", label: "About Biography" },
+              { id: "experience", label: "Professional Experience" },
+              { id: "education", label: "Academic Qualifications" },
+              { id: "publications", label: "Publications & Research" },
+              { id: "presentations", label: "Paper Presentations" },
+              { id: "workshops", label: "Workshops & Training" },
+              { id: "involvement", label: "Social Involvement" },
+              { id: "contact", label: "Contact Details" },
+            ].map((link) => (
+              <button
+                key={link.id}
+                onClick={() => scrollTo(link.id)}
+                className={`block w-full text-left px-3 py-2.5 rounded text-sm font-medium ${
+                  activeSection === link.id
+                    ? "bg-[#0B1528] text-white"
+                    : "text-slate-700 hover:bg-slate-100"
+                }`}
+              >
+                {link.label}
+              </button>
+            ))}
+            <div className="pt-3 border-t border-slate-100">
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setCvModalOpen(true);
+                }}
+                className="w-full flex items-center justify-center gap-2 py-2.5 bg-[#C5A059] text-white font-semibold text-sm rounded shadow-xs"
+              >
+                <FileText className="w-4 h-4" /> View Formal CV
+              </button>
+            </div>
+          </div>
+        )}
+      </header>
+
+      {/* HERO SECTION */}
+      <section
+        id="hero"
+        className="relative bg-linear-to-b from-[#F5F4EE] via-[#FDFDFB] to-[#FAFAF8] py-16 md:py-24 border-b border-slate-200"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            {/* Left Column: Academic Persona */}
+            <div className="lg:col-span-7 space-y-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-100/70 border border-amber-300/50 rounded text-xs font-semibold text-amber-900 tracking-wide">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#8C6D23]" />
+                Tribhuvan University Affiliated Faculty
+              </div>
+
+              <div className="space-y-2">
+                <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#0B1528] leading-[1.15]">
+                  {PERSONAL_INFO.name}
+                </h1>
+                <p className="text-lg sm:text-xl font-medium text-[#8C6D23] font-serif italic">
+                  {PERSONAL_INFO.title}
+                </p>
+                <p className="text-sm sm:text-base text-slate-600 flex items-center gap-2 pt-1">
+                  <MapPin className="w-4 h-4 text-slate-400 shrink-0" />
+                  {PERSONAL_INFO.institution}
+                </p>
+              </div>
+
+              <p className="text-base sm:text-lg text-slate-700 leading-relaxed max-w-2xl font-light">
+                {PERSONAL_INFO.summary}
+              </p>
+
+              {/* Quick Metrics */}
+              <div className="grid grid-cols-3 gap-4 pt-4 border-t border-slate-200/80 max-w-lg">
+                <div>
+                  <span className="block font-serif text-2xl font-bold text-[#0B1528]">
+                    28+
+                  </span>
+                  <span className="text-xs text-slate-500 uppercase tracking-wider">
+                    Years Academic & Professional
+                  </span>
+                </div>
+                <div>
+                  <span className="block font-serif text-2xl font-bold text-[#0B1528]">
+                    3.89
+                  </span>
+                  <span className="text-xs text-slate-500 uppercase tracking-wider">
+                    M.Phil. TU CGPA
+                  </span>
+                </div>
+                <div>
+                  <span className="block font-serif text-2xl font-bold text-[#0B1528]">
+                    6+
+                  </span>
+                  <span className="text-xs text-slate-500 uppercase tracking-wider">
+                    Publications & Papers
+                  </span>
+                </div>
+              </div>
+
+              {/* CTAs */}
+              <div className="flex flex-wrap items-center gap-4 pt-4">
+                <button
+                  onClick={() => scrollTo("about")}
+                  className="px-6 py-3.5 bg-[#0B1528] hover:bg-[#152342] text-white font-medium text-sm rounded shadow-sm hover:shadow transition-all flex items-center gap-2"
+                >
+                  Explore My Profile
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+
+                <button
+                  onClick={() => setCvModalOpen(true)}
+                  className="px-6 py-3.5 bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-medium text-sm rounded shadow-2xs hover:border-slate-400 transition-all flex items-center gap-2"
+                >
+                  <Download className="w-4 h-4 text-[#8C6D23]" />
+                  Download Academic CV
+                </button>
+              </div>
+            </div>
+
+            {/* Right Column: Formal Academic Portrait Card */}
+            <div className="lg:col-span-5 flex justify-center">
+              <div className="relative group w-full max-w-md">
+                {/* Decorative border frame */}
+                <div className="absolute -inset-2 rounded-2xl bg-gradient-to-tr from-[#C5A059]/40 via-slate-200 to-[#0B1528]/10 blur-sm group-hover:blur-md transition-all opacity-80" />
+                
+                <div className="relative bg-white p-4 rounded-xl border border-slate-200 shadow-xl overflow-hidden">
+                  <div className="relative aspect-4/5 rounded-lg overflow-hidden bg-slate-100 border border-slate-200/80 flex flex-col items-center justify-center text-center">
+                    {customPhoto ? (
+                      <img
+                        src={customPhoto}
+                        alt="Prabina Shrestha portrait"
+                        className="w-full h-full object-cover object-top"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex flex-col items-center justify-center p-8 bg-linear-to-b from-[#FAF8F5] to-[#EAE6DF]">
+                        {/* Elegant Academic Monogram Avatar */}
+                        <div className="w-28 h-28 rounded-full bg-[#0B1528] text-[#D4AF37] border-4 border-white shadow-lg flex items-center justify-center font-serif text-3xl font-bold mb-4 tracking-wider">
+                          PS
+                        </div>
+                        <h4 className="font-serif font-bold text-slate-900 text-lg">
+                          Prabina Shrestha
+                        </h4>
+                        <p className="text-xs text-slate-600 mt-1">
+                          Vice Principal & Lecturer in Management
+                        </p>
+                        <p className="text-[11px] text-slate-500 mt-0.5">
+                          Balkumari Campus • Narayangarh
+                        </p>
+
+                        <div className="mt-6 pt-4 border-t border-slate-300/70 w-full text-center">
+                          <p className="text-[11px] text-slate-500 italic mb-2">
+                            Official Academic Profile
+                          </p>
+                          <button
+                            type="button"
+                            onClick={() => fileInputRef.current?.click()}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-[#0B1528] bg-white border border-slate-300 rounded shadow-2xs hover:bg-slate-50"
+                          >
+                            <Camera className="w-3.5 h-3.5 text-[#8C6D23]" />
+                            Upload / Replace Portrait
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Change photo overlay button when image exists */}
+                    {customPhoto && (
+                      <button
+                        onClick={() => fileInputRef.current?.click()}
+                        className="absolute bottom-3 right-3 px-3 py-1.5 bg-[#0B1528]/80 hover:bg-[#0B1528] text-white text-xs font-medium rounded-md shadow backdrop-blur-xs flex items-center gap-1.5"
+                        title="Upload a different photo"
+                      >
+                        <Camera className="w-3.5 h-3.5 text-[#D4AF37]" />
+                        Update Photo
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Institutional Verification Footer */}
+                  <div className="mt-3.5 flex items-center justify-between text-xs text-slate-600 px-1">
+                    <span className="font-semibold text-slate-800 flex items-center gap-1.5">
+                      <GraduationCap className="w-4 h-4 text-[#8C6D23]" />
+                      Balkumari Campus
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-[11px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />
+                      Active Faculty
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ABOUT ME SECTION */}
+      <section id="about" className="py-20 bg-white border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-xs uppercase tracking-widest text-[#8C6D23] font-bold">
+              Faculty Biography
+            </span>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0B1528] mt-1 mb-4">
+              Academic Background & Leadership
+            </h2>
+            <div className="w-16 h-1 bg-[#C5A059] mx-auto rounded-full" />
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            {/* Narrative Column */}
+            <div className="lg:col-span-7 space-y-5 text-slate-700 leading-relaxed text-base">
+              <p className="first-letter:font-serif first-letter:text-5xl first-letter:font-bold first-letter:float-left first-letter:mr-3 first-letter:text-[#0B1528]">
+                Prabina Shrestha is an accomplished academic leader, educator, and management scholar whose university career spans more than twenty-eight years of dedicated teaching, research, and institutional stewardship in Nepal.
+              </p>
+
+              <p>
+                Her scholarly journey began with rigorous training in the health sciences, graduating with a <strong>Proficiency Certificate Level (PCL) in Pharmacy</strong> from the Institute of Medicine (IOM), Tribhuvan University (Maharajgunj Campus) in 1994 with First Division honors. She subsequently leveraged this scientific precision to pursue advanced management studies, completing both her <strong>Bachelor of Business Administration (BBA)</strong> and <strong>Master of Business Administration (MBA)</strong> from Tribhuvan University, Kirtipur.
+              </p>
+
+              <p>
+                Deepening her research commitments, she completed her <strong>Master of Philosophy (M.Phil.) in Management</strong> from Tribhuvan University (2024–2026), achieving a distinguished cumulative <strong>CGPA of 3.89</strong>. Her academic research delves into organizational culture, micro-economic determinants of corporate capital structure, public participation in community colleges, and socio-cultural dimensions of women entrepreneurship in Chitwan.
+              </p>
+
+              <p>
+                At <strong>Balkumari College / Balkumari Campus</strong>, she has held ascending leadership responsibilities since 2000: progressing from Assistant Lecturer to permanent Lecturer, serving as Program Coordinator for Management (Day Shift), and currently fulfilling the executive office of <strong>Vice Principal</strong> (2024–Present).
+              </p>
+
+              <div className="pt-2">
+                <blockquote className="border-l-4 border-[#C5A059] pl-4 italic text-slate-800 bg-[#FBF9F5] py-3 pr-4 rounded-r">
+                  "Education is not merely the transmission of textbook theory; it is the deliberate cultivation of ethical stewardship, community relevance, and resilient leadership."
+                </blockquote>
+              </div>
+            </div>
+
+            {/* Quick Profile & Identity Card */}
+            <div className="lg:col-span-5 bg-[#FAFAF8] border border-slate-200/90 rounded-xl p-6 sm:p-8 shadow-xs">
+              <h3 className="font-serif text-xl font-bold text-[#0B1528] pb-3 border-b border-slate-200 flex items-center justify-between">
+                <span>Personal Profile</span>
+                <Sparkles className="w-4 h-4 text-[#8C6D23]" />
+              </h3>
+
+              <div className="divide-y divide-slate-200/70 text-sm">
+                <div className="py-3.5 flex justify-between items-center">
+                  <span className="text-slate-500 font-medium">Full Name</span>
+                  <span className="font-semibold text-slate-900">
+                    Prabina Shrestha
+                  </span>
+                </div>
+
+                <div className="py-3.5 flex justify-between items-center">
+                  <span className="text-slate-500 font-medium">Date of Birth</span>
+                  <span className="font-semibold text-slate-900">
+                    2031/06/28 (B.S.)
+                  </span>
+                </div>
+
+                <div className="py-3.5 flex justify-between items-center">
+                  <span className="text-slate-500 font-medium">Nationality</span>
+                  <span className="font-semibold text-slate-900">
+                    {PERSONAL_INFO.nationality}
+                  </span>
+                </div>
+
+                <div className="py-3.5 flex justify-between items-center">
+                  <span className="text-slate-500 font-medium">Current Institution</span>
+                  <span className="font-semibold text-slate-900 text-right">
+                    Balkumari Campus
+                  </span>
+                </div>
+
+                <div className="py-3.5 flex justify-between items-center">
+                  <span className="text-slate-500 font-medium">Academic Rank</span>
+                  <span className="font-semibold text-slate-900">
+                    Lecturer & Vice Principal
+                  </span>
+                </div>
+
+                <div className="py-3.5 flex justify-between items-center">
+                  <span className="text-slate-500 font-medium">Permanent Address</span>
+                  <span className="font-semibold text-slate-900 text-right">
+                    {PERSONAL_INFO.permanentAddress}
+                  </span>
+                </div>
+
+                <div className="py-3.5 flex justify-between items-center">
+                  <span className="text-slate-500 font-medium">Primary Focus</span>
+                  <span className="font-semibold text-slate-900 text-right">
+                    Management, Governance & Pedagogy
+                  </span>
+                </div>
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-slate-200 flex flex-col gap-2">
+                <a
+                  href="#contact"
+                  className="w-full text-center py-2.5 bg-[#0B1528] text-white rounded text-xs font-semibold uppercase tracking-wider hover:bg-[#1a2f58] transition"
+                >
+                  Get In Touch
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* PROFESSIONAL EXPERIENCE SECTION */}
+      <section
+        id="experience"
+        className="py-20 bg-[#F7F7F4] border-b border-slate-200"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-xs uppercase tracking-widest text-[#8C6D23] font-bold">
+              Career Trajectory
+            </span>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0B1528] mt-1 mb-4">
+              Professional & Academic Experience
+            </h2>
+            <div className="w-16 h-1 bg-[#C5A059] mx-auto rounded-full" />
+            <p className="text-slate-600 text-sm sm:text-base mt-4">
+              A chronological timeline of verified teaching, administrative leadership, and healthcare instructional appointments.
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto relative">
+            {/* Center Vertical Line */}
+            <div className="absolute left-4 md:left-1/2 top-4 bottom-4 w-0.5 bg-slate-300 md:-translate-x-1/2" />
+
+            <div className="space-y-12">
+              {EXPERIENCE_DATA.map((item, index) => {
+                const isEven = index % 2 === 0;
+                return (
+                  <div
+                    key={index}
+                    className="relative flex flex-col md:flex-row items-start"
+                  >
+                    {/* Timeline Node Point */}
+                    <div className="absolute left-4 md:left-1/2 top-1.5 -translate-x-1/2 w-8 h-8 rounded-full bg-white border-4 border-[#0B1528] flex items-center justify-center z-10 shadow-xs">
+                      <div className="w-2 h-2 rounded-full bg-[#C5A059]" />
+                    </div>
+
+                    {/* Content Box */}
+                    <div
+                      className={`ml-12 md:ml-0 md:w-1/2 ${
+                        isEven ? "md:pr-12 md:text-right" : "md:pl-12 md:ml-auto"
+                      }`}
+                    >
+                      <div className="bg-white border border-slate-200/90 rounded-xl p-6 shadow-xs hover:shadow-md transition-shadow">
+                        <div
+                          className={`flex flex-wrap items-center gap-2 mb-2 ${
+                            isEven ? "md:justify-end" : "md:justify-start"
+                          }`}
+                        >
+                          <span className="px-2.5 py-0.5 rounded text-xs font-bold uppercase tracking-wider bg-[#0B1528] text-white">
+                            {item.period}
+                          </span>
+                          <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-amber-50 text-amber-900 border border-amber-200">
+                            {item.category}
+                          </span>
+                        </div>
+
+                        <h3 className="font-serif text-xl font-bold text-slate-900">
+                          {item.role}
+                        </h3>
+                        <p className="text-sm font-semibold text-[#8C6D23] mb-3">
+                          {item.institution}
+                        </p>
+
+                        <ul
+                          className={`text-sm text-slate-600 space-y-1.5 ${
+                            isEven ? "md:text-right" : "text-left"
+                          }`}
+                        >
+                          {item.details.map((desc, dIdx) => (
+                            <li key={dIdx} className="leading-snug">
+                              {desc}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ACADEMIC QUALIFICATIONS SECTION */}
+      <section
+        id="education"
+        className="py-20 bg-white border-b border-slate-200"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-xs uppercase tracking-widest text-[#8C6D23] font-bold">
+              Scholarly Pedigree
+            </span>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0B1528] mt-1 mb-4">
+              Academic Qualifications
+            </h2>
+            <div className="w-16 h-1 bg-[#C5A059] mx-auto rounded-full" />
+            <p className="text-slate-600 text-sm sm:text-base mt-4">
+              From foundational pharmacy and medicine to advanced research in management at Tribhuvan University.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {EDUCATION_DATA.map((edu, idx) => {
+              if (edu.highlight) {
+                return (
+                  <div
+                    key={idx}
+                    className="md:col-span-2 lg:col-span-3 bg-linear-to-r from-[#0B1528] to-[#162746] text-white rounded-xl p-8 shadow-lg relative overflow-hidden border border-[#C5A059]/40"
+                  >
+                    <div className="absolute right-0 top-0 translate-x-8 -translate-y-8 w-64 h-64 rounded-full bg-[#C5A059]/10 blur-2xl pointer-events-none" />
+
+                    <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                      <div className="space-y-3 max-w-3xl">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#C5A059]/20 border border-[#C5A059]/40 rounded text-xs font-semibold text-[#E5C77D] tracking-wide">
+                          <Award className="w-3.5 h-3.5 text-[#E5C77D]" />
+                          Highest Academic Credential (M.Phil.)
+                        </div>
+
+                        <h3 className="font-serif text-2xl sm:text-3xl font-bold text-white leading-tight">
+                          {edu.degree}
+                        </h3>
+
+                        <p className="text-[#C5A059] font-medium text-base">
+                          {edu.institution}
+                        </p>
+
+                        <p className="text-slate-300 text-sm leading-relaxed">
+                          {edu.description}
+                        </p>
+
+                        <div className="text-xs text-slate-400">
+                          Specialization:{" "}
+                          <span className="text-slate-200 font-medium">
+                            {edu.focus}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="shrink-0 bg-white/10 backdrop-blur-xs border border-white/15 p-6 rounded-lg text-center min-w-[200px]">
+                        <span className="text-xs font-semibold text-[#E5C77D] uppercase tracking-wider block">
+                          Academic Score
+                        </span>
+                        <span className="font-serif text-3xl sm:text-4xl font-bold text-white block my-1">
+                          {edu.score}
+                        </span>
+                        <span className="text-xs text-slate-300 bg-white/10 px-2 py-0.5 rounded">
+                          Years: {edu.duration}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+
+              return (
+                <div
+                  key={idx}
+                  className="bg-[#FAFAF8] border border-slate-200/90 rounded-xl p-6 hover:border-slate-300 hover:shadow-md transition flex flex-col justify-between"
+                >
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="font-bold text-[#8C6D23] bg-amber-100/60 px-2.5 py-0.5 rounded">
+                        {edu.duration}
+                      </span>
+                      <span className="font-semibold text-slate-700 bg-slate-200/60 px-2 py-0.5 rounded">
+                        {edu.score}
+                      </span>
+                    </div>
+
+                    <h3 className="font-serif text-lg font-bold text-slate-900 leading-snug">
+                      {edu.degree}
+                    </h3>
+
+                    <p className="text-xs font-semibold text-slate-600">
+                      {edu.institution}
+                    </p>
+
+                    <p className="text-xs text-slate-500 leading-relaxed pt-1">
+                      {edu.description}
+                    </p>
+                  </div>
+
+                  <div className="pt-4 mt-4 border-t border-slate-200/60 text-[11px] text-slate-500 flex items-center justify-between">
+                    <span>Field: {edu.focus.split("&")[0]}</span>
+                    <GraduationCap className="w-3.5 h-3.5 text-slate-400" />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* RESEARCH & PUBLICATIONS SECTION */}
+      <section
+        id="publications"
+        className="py-20 bg-[#F9F9F6] border-b border-slate-200"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-xs uppercase tracking-widest text-[#8C6D23] font-bold">
+              Scholarly Output
+            </span>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0B1528] mt-1 mb-4">
+              Research & Publications
+            </h2>
+            <div className="w-16 h-1 bg-[#C5A059] mx-auto rounded-full" />
+            <p className="text-slate-600 text-sm sm:text-base mt-4">
+              Peer-reviewed articles, institutional journal editions, and community scholarship documented in verified academic repositories.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {PUBLICATIONS_DATA.map((pub) => (
+              <div
+                key={pub.id}
+                className="bg-white border border-slate-200 rounded-xl p-6 shadow-2xs hover:shadow-md transition-all flex flex-col justify-between group"
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <span className="px-2.5 py-0.5 rounded text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200 group-hover:bg-amber-50 group-hover:text-amber-900 group-hover:border-amber-200 transition-colors">
+                      {pub.category}
+                    </span>
+                    <span className="text-xs font-bold text-slate-600">
+                      {pub.year}
+                    </span>
+                  </div>
+
+                  <h3 className="font-serif text-lg font-bold text-slate-900 leading-snug group-hover:text-[#0B1528] mb-3">
+                    "{pub.title}"
+                  </h3>
+
+                  <div className="space-y-1.5 text-xs text-slate-600 mb-4">
+                    <p className="font-medium text-slate-800">
+                      {pub.journal}
+                    </p>
+                    {pub.publisher && (
+                      <p className="text-slate-500">
+                        Publisher: {pub.publisher}
+                      </p>
+                    )}
+                    {pub.volume && (
+                      <p className="text-slate-400">
+                        Edition / Volume: {pub.volume}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
+                  <span className="text-slate-500 font-medium">
+                    Prabina Shrestha (Author)
+                  </span>
+                  <div className="inline-flex items-center gap-1 text-[#8C6D23] font-semibold">
+                    <BookOpen className="w-3.5 h-3.5" />
+                    Indexed
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* RESEARCH PAPER PRESENTATIONS */}
+      <section
+        id="presentations"
+        className="py-20 bg-white border-b border-slate-200"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-xs uppercase tracking-widest text-[#8C6D23] font-bold">
+              Conference Dissemination
+            </span>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0B1528] mt-1 mb-4">
+              Research Paper Presentations
+            </h2>
+            <div className="w-16 h-1 bg-[#C5A059] mx-auto rounded-full" />
+            <p className="text-slate-600 text-sm sm:text-base mt-4">
+              Papers delivered at national and international peer conferences covering higher education reform, women entrepreneurship, and capital structure.
+            </p>
+          </div>
+
+          <div className="space-y-6 max-w-4xl mx-auto">
+            {PRESENTATIONS_DATA.map((pres, idx) => (
+              <div
+                key={idx}
+                className="bg-[#FAFAF8] border border-slate-200 rounded-xl p-6 sm:p-7 hover:border-slate-300 transition-all flex flex-col md:flex-row md:items-start justify-between gap-6"
+              >
+                <div className="space-y-2.5 max-w-2xl">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="px-2.5 py-0.5 rounded text-xs font-bold uppercase tracking-wider bg-[#0B1528] text-white">
+                      {pres.scope}
+                    </span>
+                    <span className="px-2 py-0.5 rounded text-xs font-semibold bg-amber-100/70 text-amber-900 border border-amber-200">
+                      Year: {pres.year}
+                    </span>
+                  </div>
+
+                  <h3 className="font-serif text-xl font-bold text-slate-900 leading-snug">
+                    "{pres.title}"
+                  </h3>
+
+                  <p className="text-sm font-medium text-slate-700">
+                    {pres.conference}
+                  </p>
+
+                  <p className="text-xs text-slate-500">
+                    Host Organizer: {pres.organizer}
+                  </p>
+                </div>
+
+                <div className="shrink-0 md:self-center">
+                  <div className="px-4 py-2 border border-slate-300 rounded text-center bg-white text-xs text-slate-700 font-semibold flex md:flex-col items-center justify-center gap-1">
+                    <span className="text-[#8C6D23]">Presented By</span>
+                    <span>P. Shrestha</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* WORKSHOPS, TRAINING & PROFESSIONAL DEVELOPMENT */}
+      <section
+        id="workshops"
+        className="py-20 bg-[#F7F7F4] border-b border-slate-200"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <span className="text-xs uppercase tracking-widest text-[#8C6D23] font-bold">
+              Continuous Capacity Building
+            </span>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0B1528] mt-1 mb-4">
+              Workshops, Training & Development
+            </h2>
+            <div className="w-16 h-1 bg-[#C5A059] mx-auto rounded-full" />
+            <p className="text-slate-600 text-sm sm:text-base mt-4">
+              Over two decades of continuous faculty empowerment, digital pedagogy, research methodology, and governance trainings sponsored by the UGC and academic universities.
+            </p>
+          </div>
+
+          {/* Filter and Search Bar */}
+          <div className="max-w-4xl mx-auto mb-8 space-y-4">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              {/* Category Pills */}
+              <div className="flex flex-wrap items-center gap-1.5 w-full sm:w-auto">
+                {workshopCategories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setSelectedWorkshopCategory(cat)}
+                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition ${
+                      selectedWorkshopCategory === cat
+                        ? "bg-[#0B1528] text-white shadow-2xs"
+                        : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-100"
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+
+              {/* Search Box */}
+              <div className="relative w-full sm:w-64">
+                <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  placeholder="Filter training or year..."
+                  value={searchWorkshopQuery}
+                  onChange={(e) => setSearchWorkshopQuery(e.target.value)}
+                  className="w-full pl-9 pr-3 py-1.5 text-xs bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-[#0B1528]"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Workshops List */}
+          <div className="max-w-4xl mx-auto bg-white border border-slate-200 rounded-xl overflow-hidden shadow-xs divide-y divide-slate-100">
+            {filteredWorkshops.length === 0 ? (
+              <div className="p-8 text-center text-sm text-slate-500">
+                No workshops match the selected criteria.
+              </div>
+            ) : (
+              filteredWorkshops.map((ws, i) => (
+                <div
+                  key={i}
+                  className="p-4 sm:p-5 hover:bg-slate-50/80 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                >
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-amber-50 text-amber-900 border border-amber-200">
+                        {ws.type}
+                      </span>
+                    </div>
+                    <h4 className="font-serif text-base font-bold text-slate-900 leading-snug">
+                      {ws.title}
+                    </h4>
+                    <p className="text-xs text-slate-600">
+                      Organized by: <span className="font-medium text-slate-800">{ws.organizer}</span>
+                    </p>
+                  </div>
+
+                  <div className="shrink-0 sm:text-right">
+                    <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700 bg-slate-100 px-2.5 py-1 rounded">
+                      <Calendar className="w-3.5 h-3.5 text-slate-500" />
+                      {ws.year}
+                    </span>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+          <div className="text-center mt-6 text-xs text-slate-500">
+            Showing {filteredWorkshops.length} of {WORKSHOPS_DATA.length} verified workshops & professional development programs
+          </div>
+        </div>
+      </section>
+
+      {/* SOCIAL AND PROFESSIONAL INVOLVEMENT */}
+      <section
+        id="involvement"
+        className="py-20 bg-white border-b border-slate-200"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-xs uppercase tracking-widest text-[#8C6D23] font-bold">
+              Civic Stewardship
+            </span>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0B1528] mt-1 mb-4">
+              Social & Professional Involvement
+            </h2>
+            <div className="w-16 h-1 bg-[#C5A059] mx-auto rounded-full" />
+            <p className="text-slate-600 text-sm sm:text-base mt-4">
+              Active leadership and institutional participation across cultural preservation, service clubs, business chambers, and community cooperatives in Chitwan.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {SOCIAL_INVOLVEMENT_DATA.map((org, index) => (
+              <div
+                key={index}
+                className="bg-[#FAFAF8] border border-slate-200 rounded-xl p-6 hover:shadow-md transition flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <span className="px-2.5 py-0.5 rounded text-[11px] font-semibold bg-amber-50 text-amber-900 border border-amber-200">
+                      {org.badge}
+                    </span>
+                    <span className="text-[11px] text-slate-500 flex items-center gap-1">
+                      <MapPin className="w-3 h-3 text-slate-400" />
+                      {org.location}
+                    </span>
+                  </div>
+
+                  <h3 className="font-serif text-xl font-bold text-slate-900">
+                    {org.role}
+                  </h3>
+
+                  <p className="text-sm font-semibold text-[#8C6D23] mb-3">
+                    {org.organization}
+                  </p>
+
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    {org.description}
+                  </p>
+                </div>
+
+                <div className="pt-4 mt-4 border-t border-slate-200/60 flex items-center justify-between text-xs text-slate-500">
+                  <span>Community Service</span>
+                  <Users className="w-3.5 h-3.5 text-slate-400" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CONTACT SECTION */}
+      <section
+        id="contact"
+        className="py-20 bg-[#F9F9F6] border-b border-slate-200"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-xs uppercase tracking-widest text-[#8C6D23] font-bold">
+              Direct Communication
+            </span>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#0B1528] mt-1 mb-4">
+              Academic Contact & Inquiries
+            </h2>
+            <div className="w-16 h-1 bg-[#C5A059] mx-auto rounded-full" />
+            <p className="text-slate-600 text-sm sm:text-base mt-4">
+              Open to academic collaborations, research discussions, guest lectures, and institutional leadership dialogues.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 max-w-5xl mx-auto">
+            {/* Contact Details Column */}
+            <div className="lg:col-span-5 space-y-6">
+              <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-xs space-y-5">
+                <h3 className="font-serif text-xl font-bold text-[#0B1528] pb-2 border-b border-slate-100">
+                  Faculty Contact Information
+                </h3>
+
+                {/* Email Box */}
+                <div className="space-y-1">
+                  <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">
+                    Institutional & Personal Email
+                  </span>
+                  <div className="flex items-center justify-between p-2.5 bg-slate-50 rounded border border-slate-200">
+                    <a
+                      href={`mailto:${PERSONAL_INFO.emails[0]}`}
+                      className="text-xs sm:text-sm font-medium text-[#0B1528] hover:text-[#8C6D23] truncate"
+                    >
+                      {PERSONAL_INFO.emails[0]}
+                    </a>
+                    <button
+                      onClick={() => handleCopyEmail(PERSONAL_INFO.emails[0])}
+                      className="p-1.5 text-slate-500 hover:text-slate-800 rounded hover:bg-slate-200/60"
+                      title="Copy email to clipboard"
+                    >
+                      {copiedEmail ? (
+                        <Check className="w-4 h-4 text-emerald-600" />
+                      ) : (
+                        <Copy className="w-4 h-4" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Phone Box */}
+                <div className="space-y-1">
+                  <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">
+                    Direct Contact Numbers
+                  </span>
+                  <div className="space-y-2">
+                    {PERSONAL_INFO.phones.map((phone, idx) => (
+                      <a
+                        key={idx}
+                        href={`tel:${phone}`}
+                        className="flex items-center justify-between p-2.5 bg-slate-50 rounded border border-slate-200 hover:border-slate-300 transition text-xs sm:text-sm text-slate-800 font-medium"
+                      >
+                        <span className="flex items-center gap-2">
+                          <Phone className="w-3.5 h-3.5 text-[#8C6D23]" />
+                          +977 {phone}
+                        </span>
+                        <span className="text-[11px] text-slate-400">
+                          {idx === 0 ? "Primary" : "Alternative"}
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Campus Office Location */}
+                <div className="space-y-1">
+                  <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">
+                    Campus Office
+                  </span>
+                  <div className="p-3 bg-slate-50 rounded border border-slate-200 text-xs text-slate-700 space-y-1">
+                    <p className="font-bold text-slate-900">
+                      Balkumari Campus
+                    </p>
+                    <p>Department of Management / Vice Principal Secretariat</p>
+                    <p>Narayangarh, Chitwan District, Bagmati Province, Nepal</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Message Form Column */}
+            <div className="lg:col-span-7 bg-white border border-slate-200 rounded-xl p-6 sm:p-8 shadow-xs">
+              <h3 className="font-serif text-xl font-bold text-[#0B1528] mb-1">
+                Send an Academic Message
+              </h3>
+              <p className="text-xs text-slate-500 mb-6">
+                Please complete the form below to initiate academic or institutional correspondence.
+              </p>
+
+              {contactStatus === "success" && (
+                <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-md text-sm flex items-center gap-2">
+                  <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                  Your message has been dispatched successfully. Thank you for reaching out.
+                </div>
+              )}
+
+              <form onSubmit={handleContactSubmit} className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-medium text-slate-700 mb-1">
+                      Full Name *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.name}
+                      onChange={(e) =>
+                        setFormData({ ...formData, name: e.target.value })
+                      }
+                      placeholder="Dr. / Prof. / Scholar Name"
+                      className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-[#0B1528]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-medium text-slate-700 mb-1">
+                      Email Address *
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) =>
+                        setFormData({ ...formData, email: e.target.value })
+                      }
+                      placeholder="colleague@institution.edu.np"
+                      className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-[#0B1528]"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-slate-700 mb-1">
+                    Subject of Inquiry *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.subject}
+                    onChange={(e) =>
+                      setFormData({ ...formData, subject: e.target.value })
+                    }
+                    placeholder="Research Collaboration / Academic Inquiry / Institutional Matter"
+                    className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-[#0B1528]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-slate-700 mb-1">
+                    Message Details *
+                  </label>
+                  <textarea
+                    rows={4}
+                    required
+                    value={formData.message}
+                    onChange={(e) =>
+                      setFormData({ ...formData, message: e.target.value })
+                    }
+                    placeholder="Write your detailed inquiry or academic message here..."
+                    className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded focus:outline-none focus:ring-1 focus:ring-[#0B1528]"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={contactStatus === "submitting"}
+                  className="w-full py-3 bg-[#0B1528] hover:bg-[#18294a] text-white font-medium text-sm rounded shadow-sm transition flex items-center justify-center gap-2"
+                >
+                  {contactStatus === "submitting" ? (
+                    <span>Dispatching...</span>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4" />
+                      Transmit Message
+                    </>
+                  )}
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="bg-[#0B1528] text-slate-300 py-12 border-t border-white/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-white/10 text-sm">
+            <div className="md:col-span-2 space-y-3">
+              <h4 className="font-serif text-2xl font-bold text-white tracking-tight">
+                Prabina Shrestha
+              </h4>
+              <p className="text-slate-400 text-xs leading-relaxed max-w-sm">
+                Vice Principal & Lecturer in Management, Balkumari Campus, Narayangarh, Chitwan, Nepal. Dedicated to pedagogical excellence, management scholarship, and community service.
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <span className="text-xs uppercase font-bold text-[#D4AF37] tracking-wider block">
+                Quick Navigation
+              </span>
+              <ul className="space-y-1.5 text-xs text-slate-400">
+                <li>
+                  <button
+                    onClick={() => scrollTo("about")}
+                    className="hover:text-white"
+                  >
+                    About & Bio
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => scrollTo("experience")}
+                    className="hover:text-white"
+                  >
+                    Experience Timeline
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => scrollTo("education")}
+                    className="hover:text-white"
+                  >
+                    Qualifications
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => scrollTo("publications")}
+                    className="hover:text-white"
+                  >
+                    Research Publications
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            <div className="space-y-2">
+              <span className="text-xs uppercase font-bold text-[#D4AF37] tracking-wider block">
+                Verification & Status
+              </span>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Primary Source: Official Verified Academic Biodata (2026).
+              </p>
+              <button
+                onClick={() => setCvModalOpen(true)}
+                className="mt-2 inline-flex items-center gap-1.5 text-xs text-[#E5C77D] hover:underline"
+              >
+                <Printer className="w-3.5 h-3.5" />
+                Print Verified CV
+              </button>
+            </div>
+          </div>
+
+          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <p>© 2026 Prabina Shrestha. All Rights Reserved.</p>
+            <p className="flex items-center gap-2">
+              Balkumari Campus • Narayangarh, Chitwan, Nepal
+            </p>
+          </div>
+        </div>
+      </footer>
+
+      {/* FORMAL ACADEMIC CV MODAL / PRINT READY PREVIEW */}
+      {cvModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+          <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[92vh] flex flex-col overflow-hidden">
+            {/* Modal Header */}
+            <div className="bg-[#0B1528] text-white p-4 sm:px-6 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <FileText className="w-5 h-5 text-[#D4AF37]" />
+                <h3 className="font-serif font-bold text-lg">
+                  Academic Curriculum Vitae — Prabina Shrestha
+                </h3>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => window.print()}
+                  className="px-3 py-1.5 bg-[#C5A059] hover:bg-[#b08b3e] text-white text-xs font-semibold rounded flex items-center gap-1.5 shadow-2xs"
+                >
+                  <Printer className="w-3.5 h-3.5" />
+                  Print / Save PDF
+                </button>
+                <button
+                  onClick={() => setCvModalOpen(false)}
+                  className="p-1 text-slate-400 hover:text-white rounded"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Document Body */}
+            <div className="p-6 sm:p-10 overflow-y-auto space-y-8 text-slate-800 text-sm leading-relaxed print:p-0">
+              {/* Document Header */}
+              <div className="text-center pb-6 border-b-2 border-slate-900">
+                <h1 className="font-serif text-3xl font-bold text-slate-900 uppercase tracking-tight">
+                  Prabina Shrestha
+                </h1>
+                <p className="text-sm font-semibold text-slate-700 mt-1">
+                  Vice Principal & Lecturer in Management
+                </p>
+                <p className="text-xs text-slate-600">
+                  Balkumari Campus, Narayangarh, Chitwan, Nepal
+                </p>
+                <p className="text-xs text-slate-500 mt-1">
+                  Email: prabinashrestha031@gmail.com | Tel: +977-9845050478 / 9855093125
+                </p>
+              </div>
+
+              {/* Personal Details */}
+              <div className="space-y-2">
+                <h2 className="font-serif text-base font-bold uppercase tracking-wider text-slate-900 border-b border-slate-300 pb-1">
+                  I. Personal Particulars
+                </h2>
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div><strong>Date of Birth:</strong> 2031/06/28 B.S.</div>
+                  <div><strong>Nationality:</strong> Nepali</div>
+                  <div><strong>Permanent Address:</strong> Narayangarh, Chitwan, Nepal</div>
+                  <div><strong>Current Affiliation:</strong> Balkumari Campus</div>
+                </div>
+              </div>
+
+              {/* Education */}
+              <div className="space-y-3">
+                <h2 className="font-serif text-base font-bold uppercase tracking-wider text-slate-900 border-b border-slate-300 pb-1">
+                  II. Academic Qualifications
+                </h2>
+                <div className="space-y-3 text-xs">
+                  {EDUCATION_DATA.map((e, idx) => (
+                    <div key={idx} className="flex justify-between items-start">
+                      <div>
+                        <div className="font-bold text-slate-900">{e.degree}</div>
+                        <div className="text-slate-600">{e.institution}</div>
+                      </div>
+                      <div className="text-right">
+                        <div className="font-bold text-slate-900">{e.duration}</div>
+                        <div className="text-slate-600">{e.score}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Professional Experience */}
+              <div className="space-y-3">
+                <h2 className="font-serif text-base font-bold uppercase tracking-wider text-slate-900 border-b border-slate-300 pb-1">
+                  III. Professional & Academic Appointments
+                </h2>
+                <div className="space-y-3 text-xs">
+                  {EXPERIENCE_DATA.map((exp, idx) => (
+                    <div key={idx} className="space-y-0.5">
+                      <div className="flex justify-between font-bold text-slate-900">
+                        <span>{exp.role} — {exp.institution}</span>
+                        <span>{exp.period}</span>
+                      </div>
+                      <ul className="list-disc list-inside text-slate-600 pl-2">
+                        {exp.details.map((d, dIdx) => (
+                          <li key={dIdx}>{d}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Publications */}
+              <div className="space-y-3">
+                <h2 className="font-serif text-base font-bold uppercase tracking-wider text-slate-900 border-b border-slate-300 pb-1">
+                  IV. Publications & Research Papers
+                </h2>
+                <ol className="list-decimal list-inside space-y-2 text-xs text-slate-700">
+                  {PUBLICATIONS_DATA.map((p) => (
+                    <li key={p.id}>
+                      <strong>"{p.title}"</strong>, <em>{p.journal}</em>, {p.publisher}, {p.year}.
+                    </li>
+                  ))}
+                </ol>
+              </div>
+
+              {/* Conference Presentations */}
+              <div className="space-y-3">
+                <h2 className="font-serif text-base font-bold uppercase tracking-wider text-slate-900 border-b border-slate-300 pb-1">
+                  V. Paper Presentations
+                </h2>
+                <ol className="list-decimal list-inside space-y-2 text-xs text-slate-700">
+                  {PRESENTATIONS_DATA.map((pr, idx) => (
+                    <li key={idx}>
+                      "{pr.title}", Presented at <em>{pr.conference}</em>, {pr.organizer}, {pr.year}.
+                    </li>
+                  ))}
+                </ol>
+              </div>
+
+              {/* Social Involvement */}
+              <div className="space-y-3">
+                <h2 className="font-serif text-base font-bold uppercase tracking-wider text-slate-900 border-b border-slate-300 pb-1">
+                  VI. Social & Institutional Affiliations
+                </h2>
+                <div className="grid grid-cols-2 gap-2 text-xs text-slate-700">
+                  {SOCIAL_INVOLVEMENT_DATA.map((s, idx) => (
+                    <div key={idx}>
+                      • <strong>{s.role}</strong>, {s.organization}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-4 bg-slate-50 border-t border-slate-200 flex justify-between items-center text-xs text-slate-500">
+              <span>Primary Source Document: Faculty Biodata (Balkumari Campus)</span>
+              <button
+                onClick={() => setCvModalOpen(false)}
+                className="px-4 py-2 bg-slate-800 text-white rounded font-medium hover:bg-slate-900"
+              >
+                Close Preview
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
