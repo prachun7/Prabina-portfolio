@@ -1,15 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Lightweight, zero-dependency SVG Icons
 const Icons = {
   Building: () => (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5m-4 0h4"/>
-    </svg>
-  ),
-  Camera: () => (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>
     </svg>
   ),
   FileText: () => (
@@ -24,21 +19,16 @@ const Icons = {
   )
 };
 
+// Permanent profile photo path (placed in website/public/profile.jpg)
+const PERMANENT_PROFILE_PHOTO = "/profile.jpg";
+
 export const App: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [cvModalOpen, setCvModalOpen] = useState(false);
-  const [customPhoto, setCustomPhoto] = useState<string | null>(null);
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [workshopFilter, setWorkshopFilter] = useState('all');
   const [activeSection, setActiveSection] = useState('hero');
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  // Restore cached portrait from local storage
-  useEffect(() => {
-    const saved = localStorage.getItem('prabina_shrestha_photo');
-    if (saved) setCustomPhoto(saved);
-  }, []);
+  const [imageError, setImageError] = useState(false);
 
   // Track active section for sticky navbar highlight
   useEffect(() => {
@@ -59,23 +49,6 @@ export const App: React.FC = () => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        const base64 = ev.target?.result as string;
-        setCustomPhoto(base64);
-        try {
-          localStorage.setItem('prabina_shrestha_photo', base64);
-        } catch {
-          // Ignore quota limits
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   const handleCopyEmail = (email: string) => {
     navigator.clipboard.writeText(email);
@@ -111,16 +84,7 @@ export const App: React.FC = () => {
 
   return (
     <div>
-      {/* Hidden Photo Uploader */}
-      <input
-        type="file"
-        ref={fileInputRef}
-        onChange={handlePhotoUpload}
-        accept="image/*"
-        style={{ display: 'none' }}
-      />
-
-      {/* Institutional Bar */}
+      {/* Institutional Top Bar */}
       <aside aria-label="Institutional Information" className="top-bar">
         <div className="container top-bar-inner">
           <div className="top-bar-left">
@@ -228,21 +192,17 @@ export const App: React.FC = () => {
             </div>
           </div>
 
-          {/* Portrait Frame */}
+          {/* Permanent Portrait Card */}
           <div className="portrait-wrapper">
             <div className="portrait-card">
               <div className="portrait-frame">
-                {customPhoto ? (
-                  <>
-                    <img src={customPhoto} alt="Prabina Shrestha portrait" className="portrait-img" />
-                    <button
-                      className="upload-trigger"
-                      onClick={() => fileInputRef.current?.click()}
-                      style={{ position: 'absolute', bottom: '12px', right: '12px', background: 'rgba(10,22,40,0.85)', color: '#fff', border: 'none' }}
-                    >
-                      <Icons.Camera /> Update Photo
-                    </button>
-                  </>
+                {!imageError ? (
+                  <img
+                    src={PERMANENT_PROFILE_PHOTO}
+                    alt="Prabina Shrestha portrait"
+                    className="portrait-img"
+                    onError={() => setImageError(true)}
+                  />
                 ) : (
                   <>
                     <div className="portrait-monogram">PS</div>
@@ -255,9 +215,6 @@ export const App: React.FC = () => {
                     <p style={{ fontSize: '0.72rem', color: 'var(--gold-600)', fontWeight: 600 }}>
                       Balkumari Campus • Chitwan
                     </p>
-                    <button className="upload-trigger" onClick={() => fileInputRef.current?.click()}>
-                      <Icons.Camera /> Upload Faculty Photo
-                    </button>
                   </>
                 )}
               </div>
