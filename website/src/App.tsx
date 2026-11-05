@@ -89,7 +89,7 @@ export const App: React.FC = () => {
         <div className="container top-bar-inner">
           <div className="top-bar-left">
             <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <Icons.Building /> Balkumari Campus, Narayangarh, Chitwan, Nepal
+              <Icons.Building /> Balkumari College, Narayangarh, Chitwan, Nepal
             </span>
             <span>•</span>
             <span>Faculty of Management Studies</span>
@@ -161,7 +161,7 @@ export const App: React.FC = () => {
             <div>
               <h1 className="hero-heading">Prabina Shrestha</h1>
               <p className="hero-role">Lecturer | Academic Leader | Researcher</p>
-              <p className="hero-campus">📍 Balkumari Campus, Narayangarh, Chitwan, Nepal</p>
+              <p className="hero-campus">📍 Balkumari College, Narayangarh, Chitwan, Nepal</p>
             </div>
             <p className="hero-intro">
               An experienced academic professional with extensive experience in management education, institutional leadership, research, academic administration, and community engagement.
@@ -213,13 +213,13 @@ export const App: React.FC = () => {
                       Vice Principal & Lecturer in Management
                     </p>
                     <p style={{ fontSize: '0.72rem', color: 'var(--gold-600)', fontWeight: 600 }}>
-                      Balkumari Campus • Chitwan
+                      Balkumari College • Chitwan
                     </p>
                   </>
                 )}
               </div>
               <div className="portrait-info">
-                <span style={{ fontWeight: 600, color: 'var(--navy-950)' }}>Balkumari Campus</span>
+                <span style={{ fontWeight: 600, color: 'var(--navy-950)' }}>Balkumari College</span>
                 <span className="badge badge-gold">Active Faculty</span>
               </div>
             </div>
@@ -240,21 +240,21 @@ export const App: React.FC = () => {
           <div className="about-grid">
             <div className="about-narrative">
               <p>
-                Prabina Shrestha is an accomplished educator, academic administrator, and researcher currently serving as the <strong>Vice Principal</strong> and permanent <strong>Lecturer in Management</strong> at Balkumari College / Balkumari Campus, Narayangarh, Chitwan.
+                Prabina Shrestha is an accomplished educator, academic administrator, and researcher currently serving as the <strong>Vice Principal</strong> and permanent <strong>Lecturer in Management</strong> at Balkumari College, Narayangarh, Chitwan.
               </p>
               <p>
                 Her academic journey commenced in the health sciences with a <strong>Proficiency Certificate Level (PCL) in Pharmacy</strong> from the Institute of Medicine (IOM), Maharajgunj, Tribhuvan University (1993–1994), graduating with First Division honors (71.60%). Bridging health logistics with commercial enterprise, she completed her <strong>Bachelor of Business Administration (BBA)</strong> and <strong>Master of Business Administration (MBA)</strong> from Tribhuvan University, Kirtipur.
               </p>
               <div className="quote-block">
                 <p className="quote-text">
-                  "Higher education in community campuses is founded upon institutional integrity, pedagogical excellence, and an enduring commitment to student empowerment."
+                  "Higher education in community colleges is founded upon institutional integrity, pedagogical excellence, and an enduring commitment to student empowerment."
                 </p>
               </div>
               <p>
                 Further cementing her scholarly commitments, she completed her <strong>Master of Philosophy (M.Phil.) in Management</strong> from Tribhuvan University (2024–2026), achieving an outstanding cumulative <strong>CGPA of 3.89</strong>. Her empirical investigations center on corporate culture, organizational performance, capital structures, and women's entrepreneurship in Chitwan.
               </p>
               <p>
-                With over twenty-four years of continuous service at Balkumari College, she has steered academic coordination, examination administration, curriculum alignment, and comprehensive campus quality assurance.
+                With over twenty-four years of continuous service at Balkumari College, she has steered academic coordination, examination administration, curriculum alignment, and comprehensive college quality assurance.
               </p>
             </div>
 
@@ -278,7 +278,7 @@ export const App: React.FC = () => {
               </div>
               <div className="profile-item">
                 <span className="profile-key">Current Institution</span>
-                <span className="profile-val">Balkumari Campus</span>
+                <span className="profile-val">Balkumari College</span>
               </div>
               <div className="profile-item">
                 <span className="profile-key">Executive Office</span>
@@ -309,7 +309,7 @@ export const App: React.FC = () => {
             <span className="section-eyebrow">Career Trajectory</span>
             <h2 className="section-title">Professional Experience</h2>
             <div className="section-rule"></div>
-            <p className="section-desc">A chronological record of administrative leadership, university lectureships, and healthcare instruction.</p>
+            <p className="section-desc">A chronological record of administrative leadership, college lectureships, and healthcare instruction.</p>
           </div>
 
           <div className="timeline">
@@ -331,7 +331,7 @@ export const App: React.FC = () => {
               <div className="timeline-card">
                 <span className="timeline-period">2023 – Present</span>
                 <h3 className="timeline-role">Teaching Management Subjects</h3>
-                <p className="timeline-inst">Balkumari Campus</p>
+                <p className="timeline-inst">Balkumari College</p>
                 <ul className="timeline-desc">
                   <li>Delivering graduate and undergraduate lectures in organizational behavior and management.</li>
                   <li>Guiding student research theses, seminar paper presentations, and field surveys.</li>
@@ -603,7 +603,7 @@ export const App: React.FC = () => {
               <div>
                 <span className="badge badge-navy">National Conference</span>
                 <h3 className="pres-title">"Impact of Micro-Economic Variable on Corporate Capital Structure in Listed Manufacturing Companies in Nepal"</h3>
-                <p className="pres-conf">National Conference on Reforming Higher Education in Time of Crisis: Strategies for Retention, Quality and Societal Impact</p>
+                <p class="pres-conf">National Conference on Reforming Higher Education in Time of Crisis: Strategies for Retention, Quality and Societal Impact</p>
                 <p className="pres-organizer">Organized by Madhyabindu Multiple Campus, Kawasoti, Nawalpur</p>
               </div>
               <div className="pres-year-box">
@@ -778,9 +778,9 @@ export const App: React.FC = () => {
               </div>
 
               <div className="contact-box">
-                <div className="contact-label">Campus Location</div>
+                <div className="contact-label">College Location</div>
                 <p style={{ fontSize: '0.9rem', color: 'var(--ink-700)', lineHeight: 1.5, marginTop: '0.25rem' }}>
-                  <strong>Balkumari Campus</strong><br />
+                  <strong>Balkumari College</strong><br />
                   Office of the Vice Principal<br />
                   Narayangarh, Chitwan District, Nepal
                 </p>
@@ -832,7 +832,7 @@ export const App: React.FC = () => {
             <div>
               <h4 className="footer-title">Prabina Shrestha</h4>
               <p style={{ color: 'var(--gold-300)', fontSize: '0.78rem', textTransform: 'uppercase', marginBottom: '1rem' }}>
-                Lecturer & Vice Principal | Balkumari Campus
+                Lecturer & Vice Principal | Balkumari College
               </p>
               <p style={{ maxWidth: '420px', fontSize: '0.82rem', lineHeight: 1.6, color: '#8FA2BF' }}>
                 Authoritative faculty portfolio honoring over 28 years of academic teaching, healthcare instruction, research output, and institutional leadership in Chitwan, Nepal.
@@ -857,7 +857,7 @@ export const App: React.FC = () => {
                 Verified Document
               </h5>
               <p style={{ fontSize: '0.78rem', color: '#8FA2BF', marginBottom: '1rem' }}>
-                Compliant with official faculty biodata from Balkumari Campus, Narayangarh.
+                Compliant with official faculty biodata from Balkumari College, Narayangarh.
               </p>
               <button onClick={() => setCvModalOpen(true)} className="badge badge-gold" style={{ cursor: 'pointer' }}>
                 <Icons.Printer /> Print Verified CV
@@ -867,7 +867,7 @@ export const App: React.FC = () => {
 
           <div className="footer-bottom">
             <span>© 2026 Prabina Shrestha. All Rights Reserved.</span>
-            <span>Balkumari Campus • Narayangarh, Chitwan, Nepal</span>
+            <span>Balkumari College • Narayangarh, Chitwan, Nepal</span>
           </div>
         </div>
       </footer>
@@ -896,7 +896,7 @@ export const App: React.FC = () => {
               <div style={{ textAlign: 'center', borderBottom: '2px solid #222', paddingBottom: '1.25rem', marginBottom: '1.5rem' }}>
                 <h1 style={{ fontSize: '2.2rem', textTransform: 'uppercase', color: '#111' }}>Prabina Shrestha</h1>
                 <p style={{ fontWeight: 700, fontSize: '1.1rem', color: '#333' }}>Vice Principal & Lecturer in Management</p>
-                <p style={{ fontSize: '0.95rem' }}>Balkumari Campus, Narayangarh, Chitwan, Nepal</p>
+                <p style={{ fontSize: '0.95rem' }}>Balkumari College, Narayangarh, Chitwan, Nepal</p>
                 <p style={{ fontSize: '0.85rem', color: '#555', marginTop: '0.25rem' }}>
                   Email: prabinashrestha031@gmail.com | Phone: +977-9845050478 / 9855093125
                 </p>
@@ -909,7 +909,7 @@ export const App: React.FC = () => {
                 <div><strong>Date of Birth:</strong> 2031/06/28 B.S.</div>
                 <div><strong>Nationality:</strong> Nepali</div>
                 <div><strong>Permanent Address:</strong> Narayangarh, Chitwan, Nepal</div>
-                <div><strong>Current Affiliation:</strong> Balkumari Campus</div>
+                <div><strong>Current Affiliation:</strong> Balkumari College</div>
               </div>
 
               <h2 style={{ fontSize: '1.1rem', fontWeight: 700, textTransform: 'uppercase', borderBottom: '1px solid #333', paddingBottom: '0.25rem', marginBottom: '0.75rem' }}>
@@ -956,7 +956,7 @@ export const App: React.FC = () => {
                   <span>2024 – Present</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 700, marginTop: '0.5rem' }}>
-                  <span>Teaching Management Subjects — Balkumari Campus</span>
+                  <span>Teaching Management Subjects — Balkumari College</span>
                   <span>2023 – Present</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 700, marginTop: '0.5rem' }}>
