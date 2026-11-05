@@ -603,7 +603,7 @@ export const App: React.FC = () => {
               <div>
                 <span className="badge badge-navy">National Conference</span>
                 <h3 className="pres-title">"Impact of Micro-Economic Variable on Corporate Capital Structure in Listed Manufacturing Companies in Nepal"</h3>
-                <p class="pres-conf">National Conference on Reforming Higher Education in Time of Crisis: Strategies for Retention, Quality and Societal Impact</p>
+                <p className="pres-conf">National Conference on Reforming Higher Education in Time of Crisis: Strategies for Retention, Quality and Societal Impact</p>
                 <p className="pres-organizer">Organized by Madhyabindu Multiple Campus, Kawasoti, Nawalpur</p>
               </div>
               <div className="pres-year-box">
